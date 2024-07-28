@@ -5,7 +5,6 @@
 
 # IDEA Configuration
 .idea
-
 # Compiled class file
 *.class
 
@@ -49,5 +48,8 @@ buildNumber.properties
 .project
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
+
+#Selenide
+build
 
 # End of https://www.toptal.com/developers/gitignore/api/java,maven
