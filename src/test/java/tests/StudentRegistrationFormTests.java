@@ -1,0 +1,69 @@
+package tests;
+
+import org.junit.jupiter.api.Test;
+import pages.RegistrationFormPage;
+
+import java.io.File;
+import java.util.List;
+
+public class StudentRegistrationFormTests extends TestBase {
+
+    private final File picture = new File("src/test/resources/images.png");
+    private RegistrationFormPage registrationFormPage = new RegistrationFormPage();
+
+    /**
+     * Expected values
+     */
+    private final String firstName = "Semyon";
+    private final String lastName = "Semagin";
+    private final String email = "semagil@mail.ru";
+    private final String phone = "8987065049";
+    private final String gender = "Male";
+    private final String dateOfBirth = "16 November,2003";
+    private final String address = "Some Address1";
+    private final String file = "images.png";
+    private final List<String> subject = List.of("English");
+    private final String verify_subject = "English";
+    private final String state = "NCR";
+    private final String city = "Delhi";
+    private final String day = "16";
+    private final String month = "November";
+    private final String year = "2003";
+    private final String hobby = "Sports";
+
+
+    /**
+     * Test to check whether the field is filled in correctly
+     */
+    @Test
+    void fillingRegistrationForm() {
+
+        // Search and fill in all fields
+        registrationFormPage.setFirstName(firstName)
+                .setLastName(lastName)
+                .setEmail(email)
+                .setGender(gender)
+                .setPhone(phone)
+                .setDateOfBirth(day, month, year)
+                .setSubject(subject)
+                .setHobbies(hobby)
+                .setPicture(picture)
+                .setAddress(address)
+                .setState(state)
+                .setCity(city)
+                .clickSubmit();
+
+        registrationFormPage.verifyResultsModalAppears()
+                .verifyResult("Student Name", firstName + " " + lastName)
+                .verifyResult("Student Email", email)
+                .verifyResult("Gender", gender)
+                .verifyResult("Mobile", phone)
+                .verifyResult("Date of Birth", dateOfBirth)
+                .verifyResult("Subjects", verify_subject)
+                .verifyResult("Hobbies", hobby)
+                .verifyResult("Picture", file)
+                .verifyResult("Address", address)
+                .verifyResult("State and City", state + " " + city);
+
+    }
+}
