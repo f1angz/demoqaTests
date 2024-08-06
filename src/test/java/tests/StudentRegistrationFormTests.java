@@ -1,15 +1,21 @@
 package tests;
 
-import org.junit.jupiter.api.Test;
+import com.codeborne.selenide.logevents.SelenideLogger;
+import io.qameta.allure.*;
+import io.qameta.allure.selenide.AllureSelenide;
+import jdk.jfr.Percentage;
+import org.junit.jupiter.api.*;
 import pages.RegistrationFormPage;
 
 import java.io.File;
+import java.sql.Ref;
 import java.util.List;
+
+import static io.qameta.allure.Allure.step;
 
 public class StudentRegistrationFormTests extends TestBase {
 
     private final File picture = new File("src/test/resources/images.png");
-    private RegistrationFormPage registrationFormPage = new RegistrationFormPage();
 
     /**
      * Expected values
@@ -32,38 +38,62 @@ public class StudentRegistrationFormTests extends TestBase {
     private final String hobby = "Sports";
 
 
-    /**
-     * Test to check whether the field is filled in correctly
-     */
     @Test
+    @Owner("Semyon Semagin")
+    @DisplayName("Проверка заголовка страницы")
+    @Story("Успешный ввод данных")
+    @Tags({@Tag("web"), @Tag("smoke")})
+    @Feature("Заполнение формы Student Registration")
+    void checkTitleTest() {
+        RegistrationFormPage registrationFormPage = RegistrationFormPage.openPage();
+
+        String expectedTitle = "Student Registration Form";
+        String actualTitle = registrationFormPage.getTitle();
+        step("Заголовок страницы содержит " + "'" + expectedTitle + "'", () -> {
+            Assertions.assertEquals(actualTitle, expectedTitle);
+        });
+    }
+
+    @Test
+    @Owner("Semyon Semagin")
+    @DisplayName("Успешный ввод всех данных в поля")
+    @Story("Успешный ввод данных")
+    @Tags({@Tag("web"), @Tag("smoke")})
+    @Feature("Заполнение формы Student Registration")
     void fillingRegistrationForm() {
+        SelenideLogger.addListener("allure", new AllureSelenide());
+        RegistrationFormPage registrationFormPage = RegistrationFormPage.openPage();
 
-        // Search and fill in all fields
-        registrationFormPage.setFirstName(firstName)
-                .setLastName(lastName)
-                .setEmail(email)
-                .setGender(gender)
-                .setPhone(phone)
-                .setDateOfBirth(day, month, year)
-                .setSubject(subject)
-                .setHobbies(hobby)
-                .setPicture(picture)
-                .setAddress(address)
-                .setState(state)
-                .setCity(city)
-                .clickSubmit();
+        step("Заполнение полей", () -> {
+            registrationFormPage.
+                    setFirstName(firstName)
+                    .setLastName(lastName)
+                    .setEmail(email)
+                    .setGender(gender)
+                    .setPhone(phone)
+                    .setDateOfBirth(day, month, year)
+                    .setSubject(subject)
+                    .setHobbies(hobby)
+                    .setPicture(picture)
+                    .setAddress(address)
+                    .setState(state)
+                    .setCity(city)
+                    .clickSubmit();
+        });
 
-        registrationFormPage.verifyResultsModalAppears()
-                .verifyResult("Student Name", firstName + " " + lastName)
-                .verifyResult("Student Email", email)
-                .verifyResult("Gender", gender)
-                .verifyResult("Mobile", phone)
-                .verifyResult("Date of Birth", dateOfBirth)
-                .verifyResult("Subjects", verify_subject)
-                .verifyResult("Hobbies", hobby)
-                .verifyResult("Picture", file)
-                .verifyResult("Address", address)
-                .verifyResult("State and City", state + " " + city);
 
+        step("Проверка результатов", () -> {
+            registrationFormPage.verifyResultsModalAppears()
+                    .verifyResult("Student Name", firstName + " " + lastName)
+                    .verifyResult("Student Email", email)
+                    .verifyResult("Gender", gender)
+                    .verifyResult("Mobile", phone)
+                    .verifyResult("Date of Birth", dateOfBirth)
+                    .verifyResult("Subjects", verify_subject)
+                    .verifyResult("Hobbies", hobby)
+                    .verifyResult("Picture", file)
+                    .verifyResult("Address", address)
+                    .verifyResult("State and City", state + " " + city);
+        });
     }
 }
