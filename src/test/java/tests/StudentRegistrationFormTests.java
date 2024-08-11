@@ -3,12 +3,10 @@ package tests;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.*;
 import io.qameta.allure.selenide.AllureSelenide;
-import jdk.jfr.Percentage;
 import org.junit.jupiter.api.*;
 import pages.RegistrationFormPage;
 
 import java.io.File;
-import java.sql.Ref;
 import java.util.List;
 
 import static io.qameta.allure.Allure.step;
