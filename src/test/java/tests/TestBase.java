@@ -19,7 +19,7 @@ public abstract class TestBase {
     @BeforeAll
     public static void init() {
         Configuration.browser = BROWSER;
-        Configuration.headless = false;
+        Configuration.headless = true;
         Configuration.browserSize = BROWSER_SIZE;
         Configuration.baseUrl = BASE_URL;
     }
